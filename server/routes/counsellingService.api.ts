@@ -5,6 +5,8 @@ import { CounsellingService } from '../models/counsellingService.model';
 
 // get all
 router.get('/', async (req, res) => {
+  console.log(req)
+  console.log(res)
   try {
     const services = await CounsellingService.find();
     res.json(services);
@@ -16,10 +18,37 @@ router.get('/', async (req, res) => {
 
 // get one
 router.get('/:id', getService, async (req, res: any) => {
+  console.log(req)
+  console.log(res)
   res.send(res.service);
 });
 // create one
 router.post('/', async (req, res) => {
+  //console.log("req")
+  //var secId="test2"
+  
+  //console.log(req)
+  //console.log("res")
+  //console.log(typeof(req.body));
+
+  console.log(req.body)
+
+  //var needSecId=1
+
+  //if(needSecId==0){
+  //  req.body.SecondaryID=" " //this line will not run
+
+  //}else{
+
+
+    req.body.secondaryID=req.body.serviceName.toLowerCase().replace(/\s/g, '-')
+
+
+  //}
+  
+
+  console.log(req.body)
+
   const service = CounsellingService.build(req.body);
   try {
     const newService = await service.save();
@@ -32,6 +61,8 @@ router.post('/', async (req, res) => {
 });
 // update one (only info that is passed e.g. hours)
 router.patch('/:id', async (req, res: any) => {
+  console.log(req)
+  console.log(res)
   try {
     // get update version of service if save success
     await CounsellingService.findByIdAndUpdate(req.params.id, req.body);
